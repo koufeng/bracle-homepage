@@ -12,7 +12,6 @@ const Wrapper = styled("div")`
   justify-content: space-between;
   align-items: center;
   padding: 12px 60px;
-  background: #1d2738;
   background: rgba(255, 255, 255, 0.15);
   box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(20px);
@@ -21,7 +20,6 @@ const Wrapper = styled("div")`
     [theme.breakpoints.down("lg")]: {
       top: 0,
       padding: "0px 25px",
-      height: "54px",
     },
   })};
 `;

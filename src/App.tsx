@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -8,6 +8,7 @@ import {
 import Layout from "components/Layout";
 import Home from "views/Home";
 import "./assets/style/index.css";
+import "./assets/style/font.css";
 
 function App() {
   return (
