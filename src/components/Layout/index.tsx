@@ -1,7 +1,7 @@
 import { styled } from "@mui/material/styles";
 import { useMediaQuery, useTheme } from "@mui/material";
 import Header from "./Header";
-// import Footer from "./Footer";
+import Footer from "./Footer";
 // import MobileHeadData from "./MobileHeadData";
 
 const Container = styled("div")`
@@ -25,7 +25,7 @@ const Layout: React.FC<Props> = ({ children }): JSX.Element => {
         {/* {downToSm && <MobileHeadData></MobileHeadData>} */}
         {children}
       </Context>
-      {/* <Footer /> */}
+      <Footer />
     </Container>
   );
 };
