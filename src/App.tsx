@@ -23,7 +23,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="*" element={<Navigate to="/home" />} />
           <Route path="/staking" element={<Staking />} />
-          <Route path="/grant-program" element={<GrantProgram />} />
+          <Route path="/ecosystem/grant-program" element={<GrantProgram />} />
           <Route path="/data-provider" element={<DataProvider />} />
           <Route path="/price-feeds" element={<PriceFeeds />} />
         </Routes>

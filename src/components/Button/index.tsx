@@ -21,14 +21,6 @@ const ButtonBox = styled(Button)<{height?: number; fontSize?: number; bg?: strin
     opacity: 0.9;
     background-color: #DC7637;
   }
-  ${({ theme }) => ({
-    [theme.breakpoints.down('md')]: {
-      borderRadius: '30px',
-      span: {
-        fontSize: '14px', 
-      },
-    },
-  })};
 `
 
 const LoadingBox = styled('div')`

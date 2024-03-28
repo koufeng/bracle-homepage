@@ -286,7 +286,7 @@ const NAV: NavItem[] = [
         name: "Grant Program",
         desc: "Funding and supporting the creation of new DApps",
         icon: <GrantProgram />,
-        path: "",
+        path: "/grant-program",
       },
     ],
   },

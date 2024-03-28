@@ -1,10 +1,10 @@
 import { styled } from "@mui/material/styles";
 import { Stack, Box } from "@mui/material";
 import BannerTem from "components/Banner";
-import StakingImg from "assets/images/staking-img.png";
-import BocOne from "assets/images/boc-one.png";
-import BocTwo from "assets/images/boc-two.png";
-import BocThree from "assets/images/boc-three.png";
+import StakingImg from "assets/images/staking/staking-img.png";
+import BocOne from "assets/images/staking/boc-one.png";
+import BocTwo from "assets/images/staking/boc-two.png";
+import BocThree from "assets/images/staking/boc-three.png";
 import { ButtonPrimary } from "components/Button";
 import 'swiper/css';
 import 'swiper/css/pagination';
