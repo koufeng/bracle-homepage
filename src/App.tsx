@@ -10,6 +10,7 @@ import Home from "views/Home";
 import Staking from "views/Staking";
 import GrantProgram from "views/GrantProgram";
 import DataProvider from "views/DataProvider";
+import PriceFeeds from "views/PriceFeeds";
 import "./assets/style/index.css";
 import "./assets/style/font.css";
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/staking" element={<Staking />} />
           <Route path="/grant-program" element={<GrantProgram />} />
           <Route path="/data-provider" element={<DataProvider />} />
+          <Route path="/price-feeds" element={<PriceFeeds />} />
         </Routes>
       </Layout>
     </Router>

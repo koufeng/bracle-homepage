@@ -2,7 +2,12 @@ import { NavLink, useLocation } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { Box, Typography, Stack } from "@mui/material";
 import { useMemo, useState, ReactNode } from "react";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Modal from "@mui/material/Modal";
+import Divider from "@mui/material/Divider";
 import {
   Docs,
   Github,
@@ -14,12 +19,13 @@ import {
   Telegram,
   Twitter,
   Discord,
+  Right,
 } from "components/Svg";
 
 const NavWrapper = styled("div")`
   display: flex;
-  gap: 30px;
-  margin-left: 56px;
+  gap: 60px;
+  margin-left: 120px;
   ${({ theme }) => ({
     [theme.breakpoints.down("lg")]: {
       display: "none",
@@ -29,66 +35,11 @@ const NavWrapper = styled("div")`
 const NavText = styled(Typography)<{ actived?: boolean }>`
   position: relative;
   cursor: pointer;
+  line-height: 70px;
   color: ${({ actived }) => (actived ? "#fff" : "rgba(255, 255, 255, 0.70)")};
   &:hover {
     color: #fff;
   }
-`;
-
-const SubBox = styled(Box)`
-  ul {
-    li {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      .menu-item {
-        width: 100%;
-        height: 55px;
-        padding: 0 25px;
-        line-height: 55px;
-        cursor: pointer;
-        display: block;
-        box-sizing: border-box;
-        font-family: Zen-Dots;
-        font-size: 16px;
-        color: #b2b2b2;
-        &:hover {
-          color: #f74141;
-        }
-      }
-    }
-    .sub-li {
-      margin: 0 30px;
-      .menu-item {
-        padding: 0;
-        height: 80px;
-        display: flex;
-        align-items: center;
-
-        .icon-box {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          margin-right: 10px;
-          background-color: rgba(255, 255, 255, 0.1);
-        }
-      }
-    }
-  }
-`;
-
-const MobileNavText = styled(Typography)<{ isactive?: boolean }>`
-  width: 100%;
-  height: 55px;
-  padding: 0 25px;
-  line-height: 55px;
-  cursor: pointer;
-  display: block;
-  box-sizing: border-box;
-  font-size: 16px;
-  color: ${({ isactive }) => (isactive ? "#f74141" : "#b2b2b2")};
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
 const MobileNav = styled(Box)`
@@ -108,9 +59,8 @@ const MobileNav = styled(Box)`
 
 const MenuBox = styled(Stack)`
   position: absolute;
-  height: 100%;
-  top: 17px;
-  right: 20px;
+  top: 25px;
+  right: 80px;
   ${({ theme }) => ({
     [theme.breakpoints.up("lg")]: {
       display: "none",
@@ -160,7 +110,109 @@ const MenuBox = styled(Stack)`
   }
 `;
 
-const NavItemBox = styled(Stack)``;
+const NavItemBox = styled(Stack)`
+  height: 70px;
+  position: relative;
+  &:hover {
+    .nav-text {
+      color: #fff;
+    }
+    .sub-menu {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+`;
+
+const SubMenuBox = styled(Box)`
+  padding-top: 30px;
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translate(-50%);
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out;
+`;
+
+const SubMenuCon = styled(Stack)`
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  position: relative;
+  &::after {
+    display: block;
+    position: absolute;
+    content: "";
+    border-style: solid;
+    border-width: 0 10px 10px 10px;
+    border-color: transparent transparent rgba(255, 255, 255, 0.15) transparent;
+    top: -10px;
+    left: 50%;
+    transform: translate(-50%);
+  }
+`;
+
+const SubItemBox = styled(Box)`
+  cursor: pointer;
+`;
+
+const IconBox = styled(Stack)`
+  background: rgba(255, 255, 255, 0.4);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  padding: 5px;
+  margin-right: 10px;
+`;
+
+const SubDesc = styled(Typography)`
+  color: rgba(255, 255, 255, 0.6);
+  font-family: Arboria-Book;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
+const BraAccordion = styled(Accordion)`
+  background: none;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: none;
+  border-radius: 0;
+  box-shadow: none;
+  &::before {
+    background-color: rgba(255, 255, 255, 0);
+  }
+  &.Mui-expanded {
+    margin: 0;
+  }
+  &:last-of-type {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+`;
+
+const BraAccordionSummary = styled(AccordionSummary)`
+  padding: 10px 20px;
+  .MuiAccordionSummary-expandIconWrapper {
+    transform: rotate(-90deg);
+    &.Mui-expanded {
+      transform: rotate(-180deg);
+    }
+  }
+`;
+
+const BraAccordionDetails = styled(AccordionDetails)`
+  padding: 0px 20px 20px 20px;
+`;
+
+const SubLinkBox = styled(Stack)`
+  padding: 10px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+`;
 
 interface subMenuItem {
   name: string;
@@ -296,18 +348,55 @@ const Nav = () => {
               <>
                 <NavItemBox>
                   <NavText
+                    className="nav-text"
                     key={index}
                     variant="body1"
                     actived={curAct.indexOf(d.path) > -1}
                   >
                     {d.name}
                   </NavText>
-                  
+                  <SubMenuBox className="sub-menu">
+                    <SubMenuCon width={d.name === "Community" ? 180 : 300}>
+                      {d.subMenu.map(
+                        (subItem: subMenuItem, subIndex: number) => (
+                          <SubItemBox>
+                            <Stack
+                              mt={subIndex > 0 ? 20 : 0}
+                              justifyContent="start"
+                              alignItems="center"
+                              direction="row"
+                            >
+                              <IconBox
+                                justifyContent="center"
+                                alignItems="center"
+                                direction="row"
+                              >
+                                {subItem.icon}
+                              </IconBox>
+                              <Typography mr={12} variant="h3">
+                                {subItem.name}
+                              </Typography>
+                              <Right />
+                            </Stack>
+                            {subItem?.desc && (
+                              <Stack
+                                mt={4}
+                                justifyContent="start"
+                                alignItems="center"
+                                direction="row"
+                              >
+                                <Box width={36} mr={10}></Box>
+                                <SubDesc variant="body2">
+                                  {subItem.desc}
+                                </SubDesc>
+                              </Stack>
+                            )}
+                          </SubItemBox>
+                        )
+                      )}
+                    </SubMenuCon>
+                  </SubMenuBox>
                 </NavItemBox>
-                {/* <NavLink
-                  style={{ fontFamily: "ZenDots-Regular" }}
-                  to={d.path}
-                ></NavLink> */}
               </>
             ) : (
               <NavLink style={{ fontFamily: "ZenDots-Regular" }} to={d.path}>
@@ -340,21 +429,85 @@ const Nav = () => {
         aria-describedby="modal-modal-description"
       >
         <MobileNav>
-          {NAV.map((d: { name: string; path: string }, index: number) => (
-            <NavLink
-              onClick={handleClose}
-              style={{ fontFamily: "ZenDots-Regular", color: "#B2B2B2" }}
-              to={d.path}
-            >
-              <MobileNavText
-                isactive={curAct.indexOf(d.path) > -1}
-                fontSize={"16px !important"}
-                key={index}
-                variant="body1"
-              >
-                {d.name}
-              </MobileNavText>
-            </NavLink>
+          {NAV.map((d: NavItem, index: number) => (
+            <>
+              {d?.subMenu ? (
+                <>
+                  <BraAccordion>
+                    <BraAccordionSummary
+                      expandIcon={<ExpandMoreIcon style={{ color: "#fff" }} />}
+                    >
+                      {d.name}
+                    </BraAccordionSummary>
+                    <BraAccordionDetails>
+                      {d.subMenu.map(
+                        (subItem: subMenuItem, subIndex: number) => (
+                          <SubItemBox>
+                            {subIndex > 0 && (
+                              <Box my={20}>
+                                <Divider
+                                  style={{
+                                    borderColor: "rgba(255, 255, 255, 0.15)",
+                                  }}
+                                />
+                              </Box>
+                            )}
+                            <Stack
+                              justifyContent="start"
+                              alignItems="center"
+                              direction="row"
+                            >
+                              <IconBox
+                                justifyContent="center"
+                                alignItems="center"
+                                direction="row"
+                              >
+                                {subItem.icon}
+                              </IconBox>
+                              <Typography mr={12} variant="h3">
+                                {subItem.name}
+                              </Typography>
+                              <Right />
+                            </Stack>
+                            {subItem?.desc && (
+                              <Stack
+                                mt={4}
+                                justifyContent="start"
+                                alignItems="center"
+                                direction="row"
+                              >
+                                <Box width={36} mr={10}></Box>
+                                <SubDesc variant="body2">
+                                  {subItem.desc}
+                                </SubDesc>
+                              </Stack>
+                            )}
+                          </SubItemBox>
+                        )
+                      )}
+                    </BraAccordionDetails>
+                  </BraAccordion>
+                </>
+              ) : (
+                <>
+                  <NavLink
+                    style={{ fontFamily: "ZenDots-Regular" }}
+                    to={d.path}
+                  >
+                    <SubLinkBox
+                      justifyContent="space-between"
+                      alignItems="center"
+                      direction="row"
+                    >
+                      <Typography my={12} variant="h3">{d.name}</Typography>
+                      <ExpandMoreIcon
+                        style={{ color: "#fff", transform: "rotate(-90deg)" }}
+                      />
+                    </SubLinkBox>
+                  </NavLink>
+                </>
+              )}
+            </>
           ))}
         </MobileNav>
       </Modal>

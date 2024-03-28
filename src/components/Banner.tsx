@@ -92,6 +92,10 @@ const IconBox = styled('div')`
     background: url(${BannerIconData}) center no-repeat;
     background-size: contain;
   }
+  &.price{
+    background: url(${BannerIconPrice}) center no-repeat;
+    background-size: contain;
+  }
   ${({ theme }) => ({
     [theme.breakpoints.down("lg")]: {
       top: '100px',
