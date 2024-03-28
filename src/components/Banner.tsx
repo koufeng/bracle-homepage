@@ -5,13 +5,11 @@ import BannerIconPrice from "assets/images/banner-icon-price.png";
 import BannerIconData from "assets/images/banner-icon-data.png";
 import BannerIconGrant from "assets/images/banner-icon-grant.png";
 
-const BanBox = styled('div')`
+const BanWapper = styled('div')`
   width: 100%;
   height: 500px;
-  background: linear-gradient(to right bottom, #000000, #320900);
-  padding-top: 70px;
-  box-sizing: border-box;
   position: relative;
+  background: linear-gradient(to right bottom, #000000, #320900);
   .banner-bg-one{
     position: absolute;
     bottom: 0;
@@ -25,12 +23,39 @@ const BanBox = styled('div')`
   ${({ theme }) => ({
     [theme.breakpoints.down("lg")]: {
       height: '100%',
-      paddingTop: "60px",
       '.banner-bg-one': {
         display: 'none'
       },
       '.banner-bg-two': {
         display: 'none'
+      }
+    },
+  })};
+`;
+
+const BanBox = styled('div')`
+  width: 100%;
+  height: 100%;
+  max-width: 1140px;
+  position: relative;
+  padding-top: 70px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  
+  .content-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+  }
+  ${({ theme }) => ({
+    [theme.breakpoints.down("lg")]: {
+      height: '100%',
+      paddingTop: "60px",
+      '.content-box': {
+        marginTop: '40px',
+        flexDirection: 'column-reverse',
+        padding: '0 25px 60px',
       }
     },
   })};
@@ -44,12 +69,8 @@ const MainTitle = styled('p')<{maxWidth?: number}>`
   line-height: 68px;
   position: relative;
   z-index: 2;
-  padding: 0 120px;
-  margin-top: 90px;
   ${({ theme }) => ({
     [theme.breakpoints.down("lg")]: {
-      marginTop: "0",
-      padding: '300px 25px 0',
       fontSize: '50px',
       lineHeight: '50px',
     },
@@ -64,20 +85,15 @@ const MainDesc = styled('p')`
   line-height: 28px;
   position: relative;
   z-index: 2;
-  padding-left: 120px;
   margin-top: 34px;
   ${({ theme }) => ({
     [theme.breakpoints.down("lg")]: {
       marginTop: '30px',
-      padding: '0 25px 60px',
     },
   })};
 `;
 
 const IconBox = styled('div')`
-  position: absolute;
-  right: 175px;
-  top: 103px;
   width: 362px;
   height: 362px;
   &.staking{
@@ -98,10 +114,6 @@ const IconBox = styled('div')`
   }
   ${({ theme }) => ({
     [theme.breakpoints.down("lg")]: {
-      top: '100px',
-      left: '50%',
-      right: 'auto',
-      transform: 'translate(-50%, 0)',
       width: '220px',
       height: '220px'
     },
@@ -110,13 +122,19 @@ const IconBox = styled('div')`
 
 const BannerTem = ({title, desc, icon, titleMaxWidth} : {title: string, desc: string, icon: string, titleMaxWidth?: number}) => {
   return (
-    <BanBox>
+    <BanWapper>
       <BannerBgOne />
       <BannerBgTwo />
-      <MainTitle maxWidth={titleMaxWidth}>{ title }</MainTitle>
-      <MainDesc>{ desc }</MainDesc>
-      <IconBox className={icon} />
-    </BanBox>
+      <BanBox>
+        <div className="content-box">
+          <div>
+            <MainTitle maxWidth={titleMaxWidth}>{ title }</MainTitle>
+            <MainDesc>{ desc }</MainDesc>
+          </div>
+          <IconBox className={icon} />
+        </div>
+      </BanBox>
+    </BanWapper>
   );
 };
 
