@@ -124,7 +124,7 @@ const NavItemBox = styled(Stack)`
   }
 `;
 
-const SubMenuBox = styled(Box)`
+const SubMenuBoxHead = styled(Stack)`
   padding-top: 30px;
   position: absolute;
   top: 70px;
@@ -355,7 +355,7 @@ const Nav = () => {
                   >
                     {d.name}
                   </NavText>
-                  <SubMenuBox className="sub-menu">
+                  <SubMenuBoxHead className="sub-menu">
                     <SubMenuCon width={d.name === "Community" ? 180 : 300}>
                       {d.subMenu.map(
                         (subItem: subMenuItem, subIndex: number) => (
@@ -395,7 +395,7 @@ const Nav = () => {
                         )
                       )}
                     </SubMenuCon>
-                  </SubMenuBox>
+                  </SubMenuBoxHead>
                 </NavItemBox>
               </>
             ) : (
