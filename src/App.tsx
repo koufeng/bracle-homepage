@@ -7,6 +7,9 @@ import {
 } from "react-router-dom";
 import Layout from "components/Layout";
 import Home from "views/Home";
+import Staking from "views/Staking";
+import GrantProgram from "views/GrantProgram";
+import DataProvider from "views/DataProvider";
 import "./assets/style/index.css";
 import "./assets/style/font.css";
 
@@ -18,6 +21,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="*" element={<Navigate to="/home" />} />
+          <Route path="/staking" element={<Staking />} />
+          <Route path="/grant-program" element={<GrantProgram />} />
+          <Route path="/data-provider" element={<DataProvider />} />
         </Routes>
       </Layout>
     </Router>

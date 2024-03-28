@@ -16,6 +16,7 @@ const Wrapper = styled("div")`
   box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(20px);
   z-index: 99;
+  box-sizing: border-box;
   ${({ theme }) => ({
     [theme.breakpoints.down("lg")]: {
       top: 0,
