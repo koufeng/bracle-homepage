@@ -59,8 +59,8 @@ const MobileNav = styled(Box)`
 
 const MenuBox = styled(Stack)`
   position: absolute;
-  top: 25px;
-  right: 80px;
+  top: 27px;
+  right: 20px;
   ${({ theme }) => ({
     [theme.breakpoints.up("lg")]: {
       display: "none",
@@ -139,6 +139,7 @@ const SubMenuBoxHead = styled(Stack)`
 const SubMenuCon = styled(Stack)`
   padding: 20px;
   background: rgba(255, 255, 255, 0.15);
+
   border-radius: 10px;
   position: relative;
   &::after {
@@ -147,6 +148,7 @@ const SubMenuCon = styled(Stack)`
     content: "";
     border-style: solid;
     border-width: 0 10px 10px 10px;
+    backdrop-filter: blur(6px);
     border-color: transparent transparent rgba(255, 255, 255, 0.15) transparent;
     top: -10px;
     left: 50%;
@@ -499,7 +501,9 @@ const Nav = () => {
                       alignItems="center"
                       direction="row"
                     >
-                      <Typography my={12} variant="h3">{d.name}</Typography>
+                      <Typography my={12} variant="h3">
+                        {d.name}
+                      </Typography>
                       <ExpandMoreIcon
                         style={{ color: "#fff", transform: "rotate(-90deg)" }}
                       />

@@ -31,42 +31,47 @@ let defaultLightTheme = createTheme({
     },
     spacing: 1,
     typography: {
-        fontFamily: 'ZenDots-Regular',
+        fontFamily: 'Arboria-Book',
         fontSize: 16,
+        h1: {
+            color: '#fff',
+            fontSize: '64px',
+            fontFamily: 'Arboria-Medium',
+        },
         h2: {
             color: '#fff',
-            fontSize: '24px',
-            fontFamily: 'ZenDots-Regular',
+            fontSize: '50px',
+            fontFamily: 'Arboria-Medium',
         },
         h3: {
             color: '#fff',
             fontSize: '20px',
-            fontFamily: 'ZenDots-Regular',
+            fontFamily: 'Arboria-Medium',
         },
         subtitle1: {
             color: '#fff',
-            fontFamily: 'ZenDots-Regular',
+            fontFamily: 'Arboria-Book',
             fontSize: '16px'
         },
         subtitle2: {
             color: '#fff',
-            fontFamily: 'ZenDots-Regular',
+            fontFamily: 'Arboria-Book',
             fontSize: '14px'
         },
         body1: {
             color: '#fff',
             fontSize:'16px',
-            fontFamily: 'ZenDots-Regular',
+            fontFamily: 'Arboria-Book',
         },
         body2: {
             color: '#fff',
             fontSize:'14px',
-            fontFamily: 'ZenDots-Regular',
+            fontFamily: 'Arboria-Book',
         },
         descGray: {
             color: '#8F9DB3',
             fontSize:'14px',
-            fontFamily: 'ZenDots-Regular',
+            fontFamily: 'Arboria-Book',
         }
     }as ExtendedTypographyOptions,
     components: {
@@ -139,7 +144,7 @@ let defaultLightTheme = createTheme({
                     fontSize: '14px',
                     color: '#ffffff',
                     height: '42px',
-                    fontFamily: 'ZenDots-Regular',
+                    fontFamily: 'Arboria-Book',
                     '&:hover': {
                         backgroundColor: '#C43E3E'
                     },
@@ -178,7 +183,7 @@ let defaultLightTheme = createTheme({
         MuiCssBaseline: {
             styleOverrides: {
                 body: {
-                    fontFamily: 'ZenDots-Regular',
+                    fontFamily: 'Arboria-Book',
                     backgroundColor: '#081120',
                     color: '#fff',
                 },
@@ -218,39 +223,39 @@ let defaultLightTheme = createTheme({
     }
 });
 
-defaultLightTheme.typography.h2 = {
-    [defaultLightTheme.breakpoints.down('md')]: {
-        fontSize: '16px'
-    }
-}
+// defaultLightTheme.typography.h2 = {
+//     [defaultLightTheme.breakpoints.down('md')]: {
+//         fontSize: '16px'
+//     }
+// }
 
-defaultLightTheme.typography.h3 = {
-    [defaultLightTheme.breakpoints.down('md')]: {
-        fontSize: '14px'
-    }
-}
-defaultLightTheme.typography.subtitle1 = {
-    [defaultLightTheme.breakpoints.down('md')]: {
-        fontSize: '12px'
-    }
-}
-defaultLightTheme.typography.subtitle2 = {
-    [defaultLightTheme.breakpoints.down('md')]: {
-        fontSize: '12px'
-    }
-}
+// defaultLightTheme.typography.h3 = {
+//     [defaultLightTheme.breakpoints.down('md')]: {
+//         fontSize: '14px'
+//     }
+// }
+// defaultLightTheme.typography.subtitle1 = {
+//     [defaultLightTheme.breakpoints.down('md')]: {
+//         fontSize: '12px'
+//     }
+// }
+// defaultLightTheme.typography.subtitle2 = {
+//     [defaultLightTheme.breakpoints.down('md')]: {
+//         fontSize: '12px'
+//     }
+// }
 
-defaultLightTheme.typography.body1 = {
-    [defaultLightTheme.breakpoints.down('md')]: {
-        fontSize: '12px'
-    }
-}
+// defaultLightTheme.typography.body1 = {
+//     [defaultLightTheme.breakpoints.down('md')]: {
+//         fontSize: '12px'
+//     }
+// }
 
-defaultLightTheme.typography.body2 = {
-    [defaultLightTheme.breakpoints.down('md')]: {
-        fontSize: '12px'
-    }
-}
+// defaultLightTheme.typography.body2 = {
+//     [defaultLightTheme.breakpoints.down('md')]: {
+//         fontSize: '12px'
+//     }
+// }
 
 
 export default defaultLightTheme;
