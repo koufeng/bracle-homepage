@@ -2,12 +2,19 @@ import { styled } from "@mui/material/styles";
 import { Stack, Typography, Box, useTheme, useMediaQuery } from "@mui/material";
 import ItemBg from "assets/images/home/airdrop-bg.png";
 import ItemBg2 from "assets/images/home/airdrop-bg-2.png";
-
+import { Swiper, SwiperSlide } from "swiper/react";
 import Grid from "@mui/material/Unstable_Grid2";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
+import { useState } from "react";
 
 const ServicesBox = styled(Stack)`
   width: 100%;
   background-color: #fff;
+  .swiper-pagination-bullet-active {
+    background-color: #dc7637;
+  }
 `;
 
 const Containter = styled(Stack)`
@@ -64,13 +71,17 @@ const Desc = styled(Typography)`
   line-height: 28px;
 `;
 
-const GridItem = styled(Stack)<{index: number;}>`
-  background-image: ${({index}) => index === 0 || index === 3 ? `url(${ItemBg})` : `url(${ItemBg2})` };
+const GridItem = styled(Stack)<{ index: number; downToMd: boolean }>`
+  background-image: ${({ index, downToMd }) =>
+    index === 0 || index === 3 || downToMd
+      ? `url(${ItemBg})`
+      : `url(${ItemBg2})`};
   background-position: top center;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 100% 100%;
   height: 200px;
-  padding: ${({index}) => index === 0 || index === 3 ? `30px` : `30px 30px 30px 60px` };
+  padding: ${({ index, downToMd }) =>
+    index === 0 || index === 3 || downToMd ? `30px` : `30px 30px 30px 60px`};
 `;
 
 const StepBox = styled(Stack)`
@@ -113,6 +124,7 @@ interface AirItem {
 }
 
 const Airdrop = () => {
+  const [swiperRef, setSwiperRef] = useState<any>(null);
   const theme = useTheme();
   const downToMd = useMediaQuery(theme.breakpoints.down("md"));
   const AirList: AirItem[] = [
@@ -144,37 +156,78 @@ const Airdrop = () => {
   return (
     <ServicesBox justifyContent="center" alignItems="center" direction="row">
       <Containter>
-        <Title1>Airdrop</Title1>
-        <Title2Box mt={15}>
-          <Title2>Bracle Airdrop Process</Title2>
-        </Title2Box>
-        <DescBox mt={6}>
-          <Desc>
-            This brief guide will guide you through the Claim Process for the
-            Pyth Network Retrospective Airdrop.
-          </Desc>
-        </DescBox>
-        <Grid mt={70} container rowSpacing={30}>
-          {AirList.map((d: AirItem, index: number) => (
-            <Grid xs={4} md={4}>
-              <GridItem index={index}>
-                <Stack
-                  justifyContent="start"
-                  alignItems="center"
-                  direction="row"
+        <Box p={downToMd ? 20 : 0}>
+          <Title1>Airdrop</Title1>
+          <Title2Box mt={15}>
+            <Title2>Bracle Airdrop Process</Title2>
+          </Title2Box>
+          <DescBox mt={6}>
+            <Desc>
+              This brief guide will guide you through the Claim Process for the
+              Pyth Network Retrospective Airdrop.
+            </Desc>
+          </DescBox>
+        </Box>
+        <Box overflow={"hidden"}>
+          {downToMd ? (
+            <>
+              <Box p={20} mt={5}>
+                <Swiper
+                  onSwiper={setSwiperRef}
+                  initialSlide={0}
+                  pagination={true}
+                  modules={[Pagination]}
                 >
-                  <StepBox justifyContent="center"
-                  alignItems="center"
-                  direction="row">
-                    <StepText>{index + 1}</StepText>
-                  </StepBox>
-                  <Title ml={15}>{d.title}</Title>
-                </Stack>
-                <AirDesc mt={45}>{d.desc}</AirDesc>
-              </GridItem>
+                  {AirList.map((d: AirItem, index: number) => (
+                    <SwiperSlide style={{height: '300px'}} key={index}>
+                      <GridItem downToMd={downToMd} index={index}>
+                        <Stack
+                          justifyContent="start"
+                          alignItems="center"
+                          direction="row"
+                        >
+                          <StepBox
+                            justifyContent="center"
+                            alignItems="center"
+                            direction="row"
+                          >
+                            <StepText>{index + 1}</StepText>
+                          </StepBox>
+                          <Title ml={15}>{d.title}</Title>
+                        </Stack>
+                        <AirDesc mt={45}>{d.desc}</AirDesc>
+                      </GridItem>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </Box>
+            </>
+          ) : (
+            <Grid mt={70} container rowSpacing={30}>
+              {AirList.map((d: AirItem, index: number) => (
+                <Grid xs={4} md={4}>
+                  <GridItem downToMd={downToMd} index={index}>
+                    <Stack
+                      justifyContent="start"
+                      alignItems="center"
+                      direction="row"
+                    >
+                      <StepBox
+                        justifyContent="center"
+                        alignItems="center"
+                        direction="row"
+                      >
+                        <StepText>{index + 1}</StepText>
+                      </StepBox>
+                      <Title ml={15}>{d.title}</Title>
+                    </Stack>
+                    <AirDesc mt={45}>{d.desc}</AirDesc>
+                  </GridItem>
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
+          )}
+        </Box>
       </Containter>
     </ServicesBox>
   );

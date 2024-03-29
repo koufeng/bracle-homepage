@@ -19,15 +19,6 @@ const Containter = styled(Stack)`
   })};
 `;
 
-const Title1 = styled(Typography)`
-  color: #959595;
-  font-family: Arboria-Bold;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-`;
-
 const Title2Box = styled(Box)`
   width: 100%;
   max-width: 920px;
@@ -48,41 +39,131 @@ const Title2 = styled(Typography)`
   })};
 `;
 
-const ImgCon = styled("img")`
-  width: 100%;
-  height: auto;
+const RoaTitle = styled(Typography)`
+  color: #fff;
+  font-family: Arboria-Medium;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
 `;
+
+const RoaDesc = styled(Typography)`
+  color: #fff;
+  font-family: Arboria-Book;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+`;
+
+const LineGrid = styled(Grid)`
+  height: 2px;
+  background: #d9d9d9;
+`;
+
+const LineGridItem = styled(Grid)`
+  position: relative;
+`;
+
+const LineDot = styled(Box)`
+  position: absolute;
+  left: 0;
+  top: -13px;
+  width: 22px;
+  height: 22px;
+  border: 4px solid #fff;
+  background: #b75010;
+  border-radius: 50%;
+`;
+
+interface RoaItem {
+  title: string;
+  desc: string;
+}
 
 const RoadMap = () => {
   const theme = useTheme();
   const downToMd = useMediaQuery(theme.breakpoints.down("md"));
+  const RoaList: RoaItem[] = [
+    {
+      title: "Welcome",
+      desc: "As part of the claiming process, we will carefully review your wallet activity and/or Discord account to accurately determine the total number of tokens you are eligible to claim.",
+    },
+    {
+      title: "Review Eligibility",
+      desc: "Select the ecosystems supported by Bracle in which you are active. If applicable, tick the Bracle Discord checkbox.",
+    },
+    {
+      title: "Verify Eligibility",
+      desc: "Link your wallets and, if relevant, log in to your Discord account. Your token allocation will be shown for each linked wallet or account.",
+    },
+    {
+      title: "Log in",
+      desc: "Bracle is native to BTC. If you haven't already, please connect your wallet. If you don't have one, the Claim Page will guide you in creating a new wallet. The wallet you link during this process will receive your allocation.",
+    },
+  ];
   return (
     <RoadBox justifyContent="center" alignItems="center" direction="row">
       <Containter>
         <Title2Box mt={15}>
           <Title2>Road map</Title2>
         </Title2Box>
-        <Grid mt={70} container rowSpacing={30}>
-          {/* {AirList.map((d: AirItem, index: number) => (
-            <Grid xs={4} md={4}>
-              <GridItem index={index}>
-                <Stack
-                  justifyContent="start"
-                  alignItems="center"
-                  direction="row"
-                >
-                  <StepBox justifyContent="center"
-                  alignItems="center"
-                  direction="row">
-                    <StepText>{index + 1}</StepText>
-                  </StepBox>
-                  <Title ml={15}>{d.title}</Title>
-                </Stack>
-                <AirDesc mt={45}>{d.desc}</AirDesc>
-              </GridItem>
-            </Grid>
-          ))} */}
-        </Grid>
+        <Box mt={70}>
+          <Grid container rowSpacing={30}>
+            {RoaList.filter((fitem, findex) => findex % 2 === 0).map(
+              (d: RoaItem, index: number) => (
+                <>
+                  <Grid xs={3} md={3}>
+                    <Stack
+                      justifyContent="start"
+                      alignItems="flex-end"
+                      direction="row"
+                      height={150}
+                    >
+                      <Box>
+                        <RoaTitle>{d.title}</RoaTitle>
+                        <RoaDesc mt={20}>{d.desc}</RoaDesc>
+                      </Box>
+                    </Stack>
+                  </Grid>
+                  <Grid xs={3} md={3}></Grid>
+                </>
+              )
+            )}
+          </Grid>
+          <LineGrid my={30} container rowSpacing={30}>
+            {RoaList.map((d: RoaItem, index: number) => (
+              <>
+                <LineGridItem xs={3} md={3}>
+                  {<LineDot></LineDot>}
+                </LineGridItem>
+              </>
+            ))}
+          </LineGrid>
+          <Grid container rowSpacing={30}>
+            {RoaList.filter((fitem, findex) => findex % 2 !== 0).map(
+              (d: RoaItem, index: number) => (
+                <>
+                  <Grid xs={3} md={3}></Grid>
+                  <Grid xs={3} md={3}>
+                    <Stack
+                      justifyContent="start"
+                      alignItems="flex-start"
+                      direction="row"
+                      height={150}
+                    >
+                      <Box>
+                        <RoaTitle>{d.title}</RoaTitle>
+                        <RoaDesc mt={20}>{d.desc}</RoaDesc>
+                      </Box>
+                    </Stack>
+                  </Grid>
+                </>
+              )
+            )}
+          </Grid>
+        </Box>
       </Containter>
     </RoadBox>
   );
