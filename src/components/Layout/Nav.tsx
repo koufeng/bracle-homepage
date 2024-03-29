@@ -274,7 +274,7 @@ const NAV: NavItem[] = [
         name: "Data Providers",
         desc: "Leverage the Bracle Network to make your data accessible onchain directly through your own Bracle nodes",
         icon: <DataProviders />,
-        path: "",
+        path: "/data-provider",
       },
       {
         name: "Node Operators",

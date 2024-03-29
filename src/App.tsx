@@ -24,7 +24,7 @@ function App() {
           <Route path="*" element={<Navigate to="/home" />} />
           <Route path="/staking" element={<Staking />} />
           <Route path="/ecosystem/grant-program" element={<GrantProgram />} />
-          <Route path="/data-provider" element={<DataProvider />} />
+          <Route path="/ecosystem/data-provider" element={<DataProvider />} />
           <Route path="/price-feeds" element={<PriceFeeds />} />
         </Routes>
       </Layout>
