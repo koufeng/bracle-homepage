@@ -1,13 +1,16 @@
 import { styled } from "@mui/material/styles";
-import { Stack, Typography, Box } from "@mui/material";
+import { Stack, Typography, Box, Avatar } from "@mui/material";
 import BannerTem from "components/Banner";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ArrowBottom } from "components/Svg";
 import LightTable from "components/Table";
-import { rate } from "utils/format";
+import { rate, formatDate } from "utils/format";
 import { LineChart, Line, ResponsiveContainer } from "recharts";
+import { getPriceList } from "utils/api";
+import { PriceRequest, Origin } from "modal/types";
+
 const Containter = styled(Stack)`
   ${({ theme }) => ({
     [theme.breakpoints.down("lg")]: {},
@@ -165,43 +168,77 @@ const Trend = ({ num, dir }: { num: string | number; dir: boolean }) => {
   );
 };
 
+const TokenIcon: React.FC<{
+  symbol: string;
+}> = ({ symbol }) => {
+  return (
+    <>
+      <Avatar
+        src={`/images/tokens/${symbol}.svg`}
+        sx={{ width: 30, height: 30 }}
+      />
+    </>
+  );
+};
+
 const DataProvider = () => {
-  const [curNet, setCurNet] = useState("1");
-  const chartData = [
-    { amount: "1" },
-    { amount: "11" },
-    { amount: "4" },
-    { amount: "45" },
-  ];
+  const [curNet, setCurNet] = useState("");
+  const [tableData, setTableData] = useState<PriceRequest[]>([]);
+  const [curPage, setCurPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
+  const originMap: Origin = {
+    "1": "cypto",
+  };
   const onChange = (value: string) => {
     setCurNet(value);
   };
-  const optionsList = [
-    {
-      label: "Bracle net",
-      value: "1",
-    },
-    {
-      label: "Pyth Net",
-      value: "2",
-    },
-  ];
+
+  const HandleChartData = (chartData: number[]) => {
+    let arr: { amount: number }[] = [];
+    if (chartData && chartData.length > 0) {
+      chartData.forEach((item: number) => {
+        arr.push({ amount: item });
+      });
+    }
+    return arr;
+  };
+
+  const optionsList =
+    process.env.REACT_APP_ENABLE_TESTNETS === "true"
+      ? [
+          {
+            label: "bouncebit-testnet",
+            value: "6000",
+          },
+        ]
+      : [
+          {
+            label: "bouncebit-testnet",
+            value: "6000",
+          },
+        ];
+
   const columns = [
     {
       title: "Price Feed",
-      dataIndex: "PriceFeed",
-      key: "PriceFeed",
-      render: (text: string) => {
+      dataIndex: "baseAsset",
+      key: "baseAsset",
+      render: (text: string, record: PriceRequest) => {
         return (
           <>
             <Stack justifyContent="start" alignItems="center" direction="row">
-              <PairBox></PairBox>
+              <TokenIcon symbol={text}></TokenIcon>
               <Box ml={20}>
                 <Box>
-                  <PairTitle>1INCH/USD</PairTitle>
+                  <PairTitle>
+                    {text}/{record.quoteAsset}
+                  </PairTitle>
                 </Box>
                 <Box>
-                  <PairDesc>Crypto</PairDesc>
+                  <PairDesc>
+                    {originMap[record?.assetType] || `Crypto`}
+                  </PairDesc>
                 </Box>
               </Box>
             </Stack>
@@ -211,49 +248,49 @@ const DataProvider = () => {
     },
     {
       title: "Last Updated",
-      dataIndex: "Last Updated",
-      key: "Last Updated",
+      dataIndex: "lastUpdate",
+      key: "lastUpdate",
       render: (text: string) => {
         return (
           <>
-            <PairDesc>{"<2s ago"}</PairDesc>
+            <PairDesc>{formatDate(text)}</PairDesc>
           </>
         );
       },
     },
     {
       title: "Price",
-      dataIndex: "Price",
-      key: "Price",
+      dataIndex: "lastPrice",
+      key: "lastPrice",
       render: (text: string) => {
         return (
           <>
-            <PairTitle>1INCH/USD</PairTitle>
+            <PairTitle>{text}</PairTitle>
           </>
         );
       },
     },
     {
       title: "Confidence",
-      dataIndex: "Confidence",
-      key: "Confidence",
+      dataIndex: "confidence",
+      key: "confidence",
       render: (text: string) => {
         return (
           <>
-            <PairTitle>±$0.00063</PairTitle>
+            <PairTitle>±${text}</PairTitle>
           </>
         );
       },
     },
     {
       title: "1H",
-      dataIndex: "1H",
-      key: "1H",
+      dataIndex: "oneHour",
+      key: "oneHour",
       render: (text: string) => {
         return (
           <>
             <Stack justifyContent="start" alignItems="center" direction="row">
-              <Trend num={"0.12"} dir={true}></Trend>
+              <Trend num={text} dir={Number(text) >= 0}></Trend>
             </Stack>
           </>
         );
@@ -261,38 +298,42 @@ const DataProvider = () => {
     },
     {
       title: "24H",
-      dataIndex: "24H",
-      key: "24H",
+      dataIndex: "twentyFourHour",
+      key: "twentyFourHour",
       render: (text: string) => {
         return (
           <>
-            <Trend num={"0.12"} dir={true}></Trend>
+            <Trend num={text} dir={Number(text) >= 0}></Trend>
           </>
         );
       },
     },
     {
       title: "7D",
-      dataIndex: "7D",
-      key: "7D",
+      dataIndex: "sevenDay",
+      key: "sevenDay",
       render: (text: string) => {
         return (
           <>
-            <Trend num={"0.12"} dir={true}></Trend>
+            <Trend num={text} dir={Number(text) >= 0}></Trend>
           </>
         );
       },
     },
     {
       title: "Last 7Days",
-      dataIndex: "Last 7Days",
-      key: "Last 7Days",
-      render: (text: string) => {
+      dataIndex: "priceList",
+      key: "priceList",
+      render: (text: number[]) => {
         return (
           <>
             <Box width={160} height={70}>
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart width={160} height={70} data={chartData}>
+                <LineChart
+                  width={160}
+                  height={70}
+                  data={HandleChartData(text) || []}
+                >
                   <Line
                     type="monotone"
                     stroke="#0B9B45"
@@ -309,21 +350,52 @@ const DataProvider = () => {
     },
   ];
 
-  const tableData = [
-    {
-      PriceFeed: "12312",
-    },
-    {
-      PriceFeed: "12312",
-    },
-    {
-      PriceFeed: "12312",
-    },
-    {
-      PriceFeed: "12312",
-    },
-  ];
+  const getPriceApi = async () => {
+    try {
+      let obj: { chainId: string; page: number; pageSize: number } = {
+        chainId: curNet,
+        page: curPage,
+        pageSize: 10,
+      };
+      const res = await getPriceList(obj);
+      if (res?.result && res.result?.records) {
+        setTableData(res.result?.records);
+        setCurPage(res.result?.current);
+        setTotalPages(res.result?.pages);
+        setTotal(res.result?.total);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  const init = useCallback(async () => {
+    await getPriceApi();
+  }, [curNet, curPage]);
+
+  const changePage = useCallback(
+    (type: string) => {
+      if (type === "n") {
+        if (curPage !== totalPages) {
+          getPriceApi();
+        }
+      } else {
+        if (curPage > 1) {
+          getPriceApi();
+        }
+      }
+    },
+    [curPage, totalPages]
+  );
+
+  useEffect(() => {
+    getPriceApi();
+  }, [curNet, curPage]);
+
+  useEffect(() => {
+    setCurNet(optionsList[0]?.value);
+    init();
+  }, [init]);
   return (
     <Containter>
       <BannerTem
@@ -362,7 +434,7 @@ const DataProvider = () => {
                 })}
               </Select>
             </SelectBox>
-            <NumBox>Price Feeds: 470</NumBox>
+            <NumBox>Price Feeds: {total}</NumBox>
           </Stack>
           <Box mt={20}>
             <LightTable
@@ -383,11 +455,26 @@ const DataProvider = () => {
               alignItems={"center"}
               direction={"row"}
             >
-              <PageBtn isDis={true}>Previous</PageBtn>
-              <PageBtn isDis={false} ml={20}>
+              <PageBtn
+                onClick={() => {
+                  changePage("p");
+                }}
+                isDis={curPage === 1}
+              >
+                Previous
+              </PageBtn>
+              <PageBtn
+                onClick={() => {
+                  changePage("n");
+                }}
+                isDis={curPage === totalPages}
+                ml={20}
+              >
                 Next
               </PageBtn>
-              <PageText ml={20}>Page 1 of 109</PageText>
+              <PageText ml={20}>
+                Page {curPage} of {totalPages}
+              </PageText>
             </Stack>
           </Stack>
         </PriceCon>

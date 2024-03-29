@@ -13,7 +13,7 @@ const Wrapper = styled("div")`
   align-items: center;
   padding: 12px 60px;
   background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 2px 10px 0px rgba(81, 45, 45, 0.05);
   backdrop-filter: blur(20px);
   z-index: 99;
   box-sizing: border-box;

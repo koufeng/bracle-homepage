@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import moment from 'moment';
 
 // 地址 脱敏
 export const addressDes = (value: string) => {
@@ -87,12 +88,12 @@ export const amountFormat = (value: number | string | undefined, formatString?: 
 }
 
 // date
-// export const formatDate = (value: any, formatString = 'YYYY-MM-DD HH:mm:ss') => {
-//   if (value) {
-//     return moment.unix(value).format(formatString)
-//   }
-//   return '--'
-// }
+export const formatDate = (value: any, formatString = 'YYYY-MM-DD HH:mm:ss') => {
+  if (value) {
+    return moment.unix(value).format(formatString)
+  }
+  return '--'
+}
 
 // rate
 export const rate = (value: string | number | undefined, decimal?: number, isNull?: boolean) => {
