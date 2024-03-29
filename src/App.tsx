@@ -21,11 +21,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="*" element={<Navigate to="/home" />} />
           <Route path="/staking" element={<Staking />} />
           <Route path="/ecosystem/grant-program" element={<GrantProgram />} />
           <Route path="/ecosystem/data-provider" element={<DataProvider />} />
-          <Route path="/price-feeds" element={<PriceFeeds />} />
+          <Route path="/services/price-feeds" element={<PriceFeeds />} />
+          <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
       </Layout>
     </Router>

@@ -257,7 +257,7 @@ const NAV: NavItem[] = [
         name: "Price Feeds",
         desc: "Real-time prices for smart contracts",
         icon: <PriceFeeds />,
-        path: "",
+        path: "/services/price-feeds",
       },
       {
         name: "Watch Tower",
@@ -361,39 +361,41 @@ const Nav = () => {
                     <SubMenuCon width={d.name === "Community" ? 180 : 300}>
                       {d.subMenu.map(
                         (subItem: subMenuItem, subIndex: number) => (
-                          <SubItemBox>
-                            <Stack
-                              mt={subIndex > 0 ? 20 : 0}
-                              justifyContent="start"
-                              alignItems="center"
-                              direction="row"
-                            >
-                              <IconBox
-                                justifyContent="center"
-                                alignItems="center"
-                                direction="row"
-                              >
-                                {subItem.icon}
-                              </IconBox>
-                              <Typography mr={12} variant="h3">
-                                {subItem.name}
-                              </Typography>
-                              <Right />
-                            </Stack>
-                            {subItem?.desc && (
+                          <NavLink to={subItem.path}>
+                            <SubItemBox>
                               <Stack
-                                mt={4}
+                                mt={subIndex > 0 ? 20 : 0}
                                 justifyContent="start"
                                 alignItems="center"
                                 direction="row"
                               >
-                                <Box width={36} mr={10}></Box>
-                                <SubDesc variant="body2">
-                                  {subItem.desc}
-                                </SubDesc>
+                                <IconBox
+                                  justifyContent="center"
+                                  alignItems="center"
+                                  direction="row"
+                                >
+                                  {subItem.icon}
+                                </IconBox>
+                                <Typography mr={12} variant="h3">
+                                  {subItem.name}
+                                </Typography>
+                                <Right />
                               </Stack>
-                            )}
-                          </SubItemBox>
+                              {subItem?.desc && (
+                                <Stack
+                                  mt={4}
+                                  justifyContent="start"
+                                  alignItems="center"
+                                  direction="row"
+                                >
+                                  <Box width={36} mr={10}></Box>
+                                  <SubDesc variant="body2">
+                                    {subItem.desc}
+                                  </SubDesc>
+                                </Stack>
+                              )}
+                            </SubItemBox>
+                          </NavLink>
                         )
                       )}
                     </SubMenuCon>
@@ -401,7 +403,7 @@ const Nav = () => {
                 </NavItemBox>
               </>
             ) : (
-              <NavLink style={{ fontFamily: "ZenDots-Regular" }} to={d.path}>
+              <NavLink to={d.path}>
                 <NavText
                   key={index}
                   variant="body1"
