@@ -4,6 +4,7 @@ import Containter from "components/Containter";
 import { ReactNode } from "react";
 import { Github, Telegram, Twitter, Discord, LogoWhite } from "components/Svg";
 import Grid from "@mui/material/Unstable_Grid2";
+import { NavLink } from "react-router-dom";
 
 const Footer1Box = styled(Stack)`
   background: #272727;
@@ -65,7 +66,7 @@ const Footer = () => {
       subCon: [
         {
           name: "Prices Feeds",
-          path: "",
+          path: "/services/price-feeds",
         },
         {
           name: "Watch Tower",
@@ -73,7 +74,7 @@ const Footer = () => {
         },
         {
           name: "Data Providers",
-          path: "",
+          path: "/ecosystem/data-provider",
         },
         {
           name: "Node Operators",
@@ -81,7 +82,7 @@ const Footer = () => {
         },
         {
           name: "Staking &Restaking",
-          path: "",
+          path: "/staking",
         },
       ],
     },
@@ -136,11 +137,11 @@ const Footer = () => {
       subCon: [
         {
           name: "Privacy Policy",
-          path: "",
+          path: "/privacy-policy",
         },
         {
           name: "Terms of Service",
-          path: "",
+          path: "/terms",
         },
       ],
     },
@@ -179,18 +180,21 @@ const Footer = () => {
                     </Box>
                     {d.subCon.map((subItem: subConItem) => (
                       <>
-                        <Stack
-                          justifyContent="start"
-                          alignItems="center"
-                          direction="row"
-                          mt={15}
-                        >
-                          {subItem?.icon && <Box mr={10}>{subItem?.icon}</Box>}
-                          <Box >
-                            <Footer1Info>{subItem.name}</Footer1Info>
-                          </Box>
-                        </Stack>
-                        <Box></Box>
+                        <NavLink to={subItem.path}>
+                          <Stack
+                            justifyContent="start"
+                            alignItems="center"
+                            direction="row"
+                            mt={15}
+                          >
+                            {subItem?.icon && (
+                              <Box mr={10}>{subItem?.icon}</Box>
+                            )}
+                            <Box>
+                              <Footer1Info>{subItem.name}</Footer1Info>
+                            </Box>
+                          </Stack>
+                        </NavLink>
                       </>
                     ))}
                   </Grid>

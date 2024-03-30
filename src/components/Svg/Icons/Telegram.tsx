@@ -1,7 +1,7 @@
 import { SvgIcon } from "@mui/material";
 import { IconProps } from "../type";
 
-const Telegram: React.FC<IconProps> = ({ fontSize = "22px" }) => {
+const Telegram: React.FC<IconProps> = ({ width = "20px", height = "20px" }) => {
   return (
     <SvgIcon
       xmlns="http://www.w3.org/2000/svg"
@@ -10,7 +10,7 @@ const Telegram: React.FC<IconProps> = ({ fontSize = "22px" }) => {
       className="telegram-svg"
       viewBox="0 0 24 20"
       fill="none"
-      style={{ fill: "none", fontSize: fontSize }}
+      style={{ fill: "none", width, height }}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -25,6 +25,7 @@ const Telegram: React.FC<IconProps> = ({ fontSize = "22px" }) => {
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
+          className="fill-color"
         />
         <path
           d="M15.9161 7.82996L10.9672 12.2963C10.8499 12.4022 10.7576 12.533 10.6971 12.679C10.6366 12.825 10.6094 12.9826 10.6174 13.1405C10.6253 13.2983 10.6684 13.4524 10.7433 13.5916C10.8182 13.7308 10.9232 13.8515 11.0506 13.9451L17.8455 18.9648C17.9993 19.0786 18.1792 19.1519 18.3687 19.178C18.5582 19.2041 18.7512 19.1822 18.9301 19.1143C19.1089 19.0464 19.2678 18.9346 19.3922 18.7893C19.5166 18.644 19.6026 18.4697 19.6421 18.2826L22.9789 2.55628C23.0155 2.38378 23.0049 2.2046 22.9481 2.03765C22.8913 1.8707 22.7905 1.72219 22.6563 1.60779C22.5221 1.49339 22.3595 1.41736 22.1856 1.38771C22.0118 1.35807 21.8332 1.37592 21.6687 1.43938L2.06611 8.99992C1.9394 9.04836 1.83096 9.13512 1.75589 9.24811C1.68083 9.3611 1.64287 9.49469 1.64732 9.63027C1.65177 9.76584 1.6984 9.89666 1.78072 10.0045C1.86303 10.1123 1.97693 10.1918 2.10654 10.2318L7.25766 11.8389"
@@ -32,6 +33,7 @@ const Telegram: React.FC<IconProps> = ({ fontSize = "22px" }) => {
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
+          className="fill-color"
         />
       </svg>
     </SvgIcon>

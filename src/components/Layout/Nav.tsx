@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { Box, Typography, Stack } from "@mui/material";
-import { useMemo, useState, ReactNode } from "react";
+import { useMemo, useState, ReactNode, useEffect } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -32,13 +32,20 @@ const NavWrapper = styled("div")`
     },
   })};
 `;
-const NavText = styled(Typography)<{ actived?: boolean }>`
+const NavText = styled(Typography)<{ actived?: boolean; isTop: boolean }>`
   position: relative;
   cursor: pointer;
   line-height: 70px;
-  color: ${({ actived }) => (actived ? "#fff" : "rgba(255, 255, 255, 0.70)")};
+  color: ${({ actived, isTop }) =>
+    isTop
+      ? actived
+        ? "#fff"
+        : "rgba(255, 255, 255, 0.70)"
+      : actived
+      ? "#FF6D00"
+      : "#272727"};
   &:hover {
-    color: #fff;
+    color: ${({ isTop }) => (isTop ? "#fff" : "#FF6D00")};
   }
 `;
 
@@ -57,7 +64,7 @@ const MobileNav = styled(Box)`
   transition: transform 400ms ease 0s;
 `;
 
-const MenuBox = styled(Stack)`
+const MenuBox = styled(Stack)<{ isTop: boolean }>`
   position: absolute;
   top: 27px;
   right: 20px;
@@ -73,10 +80,10 @@ const MenuBox = styled(Stack)`
     .menu-button-line {
       width: 20px;
       height: 3px;
-      color: #fff;
+      color: ${({ isTop }) => (isTop ? "#fff" : "#272727")};
       margin-bottom: 4px;
       border-radius: 1px;
-      background-color: #fff;
+      background-color: ${({ isTop }) => (isTop ? "#fff" : "#272727")};
       transition: all 0.5s ease-in-out;
       &.top {
         transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0deg)
@@ -110,12 +117,18 @@ const MenuBox = styled(Stack)`
   }
 `;
 
-const NavItemBox = styled(Stack)`
+const NavItemBox = styled(Stack)<{ isTop: boolean }>`
   height: 70px;
   position: relative;
+  .icon-box {
+    display: none;
+  }
   &:hover {
     .nav-text {
-      color: #fff;
+      color: ${({ isTop }) => (isTop ? "#fff" : "#FF6D00")};
+    }
+    .icon-box {
+      display: flex;
     }
     .sub-menu {
       opacity: 1;
@@ -136,10 +149,11 @@ const SubMenuBoxHead = styled(Stack)`
   transition: opacity 0.3s ease-in-out;
 `;
 
-const SubMenuCon = styled(Stack)`
+const SubMenuCon = styled(Stack)<{ isTop: boolean }>`
   padding: 20px;
-  background: rgba(255, 255, 255, 0.15);
-
+  background: ${({ isTop }) =>
+    isTop ? "rgba(255, 255, 255, 0.15)" : "rgba(255, 255, 255, 1)"};
+  box-shadow: 0px 2px 10px 0px rgba(81, 45, 45, 0.2);
   border-radius: 10px;
   position: relative;
   &::after {
@@ -149,15 +163,33 @@ const SubMenuCon = styled(Stack)`
     border-style: solid;
     border-width: 0 10px 10px 10px;
     backdrop-filter: blur(6px);
-    border-color: transparent transparent rgba(255, 255, 255, 0.15) transparent;
+    border-color: ${({ isTop }) =>
+      isTop
+        ? "transparent transparent rgba(255, 255, 255, 0.15) transparent"
+        : "transparent transparent rgba(255, 255, 255, 1) transparent"};
     top: -10px;
     left: 50%;
     transform: translate(-50%);
   }
 `;
 
-const SubItemBox = styled(Box)`
+const SubItemBox = styled(Box)<{ isTop: boolean }>`
   cursor: pointer;
+  svg {
+    .fill-color {
+      fill: ${({ isTop }) => (isTop ? "#fff" : "#272727")};
+    }
+  }
+  &:hover {
+    .sub-name {
+      color: #ff6d00;
+    }
+    svg {
+      .fill-color {
+        fill: #ff6d00;
+      }
+    }
+  }
 `;
 
 const IconBox = styled(Stack)`
@@ -169,8 +201,17 @@ const IconBox = styled(Stack)`
   margin-right: 10px;
 `;
 
-const SubDesc = styled(Typography)`
-  color: rgba(255, 255, 255, 0.6);
+const SubName = styled(Typography)<{ isTop: boolean }>`
+  color: ${({ isTop }) => (isTop ? "#fff" : "#272727")};
+  font-family: Arboria-Medium;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
+const SubDesc = styled(Typography)<{ isTop: boolean }>`
+  color: ${({ isTop }) => (isTop ? "rgba(255, 255, 255, 0.6)" : "#999")};
   font-family: Arboria-Book;
   font-size: 12px;
   font-style: normal;
@@ -276,7 +317,7 @@ const NAV: NavItem[] = [
         name: "Data Providers",
         desc: "Leverage the Bracle Network to make your data accessible onchain directly through your own Bracle nodes",
         icon: <DataProviders />,
-        path: "/data-provider",
+        path: "/ecosystem/data-provider",
       },
       {
         name: "Node Operators",
@@ -288,7 +329,7 @@ const NAV: NavItem[] = [
         name: "Grant Program",
         desc: "Funding and supporting the creation of new DApps",
         icon: <GrantProgram />,
-        path: "/grant-program",
+        path: "/ecosystem/grant-program",
       },
     ],
   },
@@ -326,7 +367,7 @@ const NAV: NavItem[] = [
   },
 ];
 
-const Nav = () => {
+const Nav = ({ isTop }: { isTop: boolean }) => {
   const location = useLocation();
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const handleClose = () => setIsOpenMenu(false);
@@ -348,21 +389,25 @@ const Nav = () => {
           <>
             {d?.subMenu ? (
               <>
-                <NavItemBox>
+                <NavItemBox isTop={isTop}>
                   <NavText
                     className="nav-text"
                     key={index}
                     variant="body1"
                     actived={curAct.indexOf(d.path) > -1}
+                    isTop={isTop}
                   >
                     {d.name}
                   </NavText>
                   <SubMenuBoxHead className="sub-menu">
-                    <SubMenuCon width={d.name === "Community" ? 180 : 300}>
+                    <SubMenuCon
+                      isTop={isTop}
+                      width={d.name === "Community" ? 180 : 300}
+                    >
                       {d.subMenu.map(
                         (subItem: subMenuItem, subIndex: number) => (
                           <NavLink to={subItem.path}>
-                            <SubItemBox>
+                            <SubItemBox isTop={isTop}>
                               <Stack
                                 mt={subIndex > 0 ? 20 : 0}
                                 justifyContent="start"
@@ -373,12 +418,18 @@ const Nav = () => {
                                   justifyContent="center"
                                   alignItems="center"
                                   direction="row"
+                                  className="icon-box"
                                 >
                                   {subItem.icon}
                                 </IconBox>
-                                <Typography mr={12} variant="h3">
+                                <SubName
+                                  className="sub-name"
+                                  isTop={isTop}
+                                  mr={12}
+                                  variant="h3"
+                                >
                                   {subItem.name}
-                                </Typography>
+                                </SubName>
                                 <Right />
                               </Stack>
                               {subItem?.desc && (
@@ -389,7 +440,7 @@ const Nav = () => {
                                   direction="row"
                                 >
                                   <Box width={36} mr={10}></Box>
-                                  <SubDesc variant="body2">
+                                  <SubDesc isTop={isTop} variant="body2">
                                     {subItem.desc}
                                   </SubDesc>
                                 </Stack>
@@ -408,6 +459,7 @@ const Nav = () => {
                   key={index}
                   variant="body1"
                   actived={curAct.indexOf(d.path) > -1}
+                  isTop={isTop}
                 >
                   {d.name}
                 </NavText>
@@ -416,7 +468,7 @@ const Nav = () => {
           </>
         ))}
       </NavWrapper>
-      <MenuBox>
+      <MenuBox isTop={isTop}>
         <div
           className={isOpenMenu ? "open menu" : "menu"}
           onClick={() => setIsOpenMenu(!isOpenMenu)}
@@ -446,7 +498,7 @@ const Nav = () => {
                     <BraAccordionDetails>
                       {d.subMenu.map(
                         (subItem: subMenuItem, subIndex: number) => (
-                          <SubItemBox>
+                          <SubItemBox isTop={isTop}>
                             {subIndex > 0 && (
                               <Box my={20}>
                                 <Divider
@@ -481,7 +533,7 @@ const Nav = () => {
                                 direction="row"
                               >
                                 <Box width={36} mr={10}></Box>
-                                <SubDesc variant="body2">
+                                <SubDesc isTop={isTop} variant="body2">
                                   {subItem.desc}
                                 </SubDesc>
                               </Stack>
@@ -495,6 +547,7 @@ const Nav = () => {
               ) : (
                 <>
                   <NavLink
+                    onClick={()=>{setIsOpenMenu(false)}}
                     style={{ fontFamily: "ZenDots-Regular" }}
                     to={d.path}
                   >
