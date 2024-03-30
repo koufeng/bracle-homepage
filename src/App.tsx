@@ -11,6 +11,9 @@ import Staking from "views/Staking";
 import GrantProgram from "views/GrantProgram";
 import DataProvider from "views/DataProvider";
 import PriceFeeds from "views/PriceFeeds";
+import PrivacyPolicy from "views/PrivacyPolicy";
+import Terms from "views/Terms";
+
 import "./assets/style/index.css";
 import "./assets/style/font.css";
 
@@ -25,6 +28,9 @@ function App() {
           <Route path="/ecosystem/grant-program" element={<GrantProgram />} />
           <Route path="/ecosystem/data-provider" element={<DataProvider />} />
           <Route path="/services/price-feeds" element={<PriceFeeds />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<Terms />} />
+          
           <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
       </Layout>
