@@ -77,6 +77,24 @@ const LineDot = styled(Box)`
   border-radius: 50%;
 `;
 
+const LineM = styled(Box)`
+  width: 2px;
+  height: 100%;
+  position: relative;
+  background: #d9d9d9;
+`;
+
+const LineDotM = styled(Box)`
+  position: absolute;
+  left: -13px;
+  top: -7px;
+  width: 22px;
+  height: 22px;
+  border: 4px solid #fff;
+  background: #b75010;
+  border-radius: 50%;
+`;
+
 interface RoaItem {
   title: string;
   desc: string;
@@ -109,61 +127,96 @@ const RoadMap = () => {
         <Title2Box mt={15}>
           <Title2>Road map</Title2>
         </Title2Box>
-        <Box mt={70}>
-          <Grid container rowSpacing={30}>
-            {RoaList.filter((fitem, findex) => findex % 2 === 0).map(
-              (d: RoaItem, index: number) => (
+        {downToMd ? (
+          <>
+            <Box mt={40}>
+              {RoaList.map((d: RoaItem, index: number) => (
                 <>
-                  <Grid xs={3} md={3}>
+                  <Stack
+                    height={200}
+                    justifyContent="flex-start"
+                    alignItems="flex-start"
+                    direction="row"
+                  >
                     <Stack
-                      justifyContent="start"
-                      alignItems="flex-end"
-                      direction="row"
-                      height={150}
-                    >
-                      <Box>
-                        <RoaTitle>{d.title}</RoaTitle>
-                        <RoaDesc mt={20}>{d.desc}</RoaDesc>
-                      </Box>
-                    </Stack>
-                  </Grid>
-                  <Grid xs={3} md={3}></Grid>
-                </>
-              )
-            )}
-          </Grid>
-          <LineGrid my={30} container rowSpacing={30}>
-            {RoaList.map((d: RoaItem, index: number) => (
-              <>
-                <LineGridItem xs={3} md={3}>
-                  {<LineDot></LineDot>}
-                </LineGridItem>
-              </>
-            ))}
-          </LineGrid>
-          <Grid container rowSpacing={30}>
-            {RoaList.filter((fitem, findex) => findex % 2 !== 0).map(
-              (d: RoaItem, index: number) => (
-                <>
-                  <Grid xs={3} md={3}></Grid>
-                  <Grid xs={3} md={3}>
-                    <Stack
-                      justifyContent="start"
+                      width={22}
+                      height={"100%"}
+                      justifyContent="center"
                       alignItems="flex-start"
                       direction="row"
-                      height={150}
                     >
+                      <LineM>
+                        <LineDotM></LineDotM>
+                      </LineM>
+                    </Stack>
+                    <Stack ml={30} height={"100%"}>
                       <Box>
                         <RoaTitle>{d.title}</RoaTitle>
                         <RoaDesc mt={20}>{d.desc}</RoaDesc>
                       </Box>
                     </Stack>
-                  </Grid>
+                  </Stack>
                 </>
-              )
-            )}
-          </Grid>
-        </Box>
+              ))}
+            </Box>
+          </>
+        ) : (
+          <Box mt={70}>
+            <Grid container rowSpacing={30}>
+              {RoaList.filter((fitem, findex) => findex % 2 === 0).map(
+                (d: RoaItem, index: number) => (
+                  <>
+                    <Grid xs={3} md={3}>
+                      <Stack
+                        justifyContent="start"
+                        alignItems="flex-end"
+                        direction="row"
+                        height={150}
+                      >
+                        <Box>
+                          <RoaTitle>{d.title}</RoaTitle>
+                          <RoaDesc mt={20}>{d.desc}</RoaDesc>
+                        </Box>
+                      </Stack>
+                    </Grid>
+                    <Grid xs={3} md={3}></Grid>
+                  </>
+                )
+              )}
+            </Grid>
+            <LineGrid my={30} container rowSpacing={30}>
+              {RoaList.map((d: RoaItem, index: number) => (
+                <>
+                  <LineGridItem xs={3} md={3}>
+                    {<LineDot></LineDot>}
+                  </LineGridItem>
+                </>
+              ))}
+            </LineGrid>
+            <Grid container rowSpacing={30}>
+              {RoaList.filter((fitem, findex) => findex % 2 !== 0).map(
+                (d: RoaItem, index: number) => (
+                  <>
+                    <Grid xs={3} md={3}></Grid>
+                    <Grid xs={3} md={3}>
+                      <Stack
+                        justifyContent="start"
+                        alignItems="flex-start"
+                        direction="row"
+                        height={150}
+                      >
+                        <Box>
+                          <RoaTitle>{d.title}</RoaTitle>
+                          <RoaDesc mt={20}>{d.desc}</RoaDesc>
+                        </Box>
+                      </Stack>
+                    </Grid>
+                  </>
+                )
+              )}
+            </Grid>
+          </Box>
+        )}
       </Containter>
     </RoadBox>
   );
