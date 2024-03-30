@@ -175,12 +175,21 @@ const SubMenuCon = styled(Stack)<{ isTop: boolean }>`
 
 const SubItemBox = styled(Box)<{ isTop: boolean }>`
   cursor: pointer;
+  .icon-right {
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+  }
   svg {
     .fill-color {
       fill: ${({ isTop }) => (isTop ? "#fff" : "#272727")};
     }
   }
   &:hover {
+    .icon-right {
+      opacity: 1;
+      visibility: visible;
+    }
     .sub-name {
       color: #ff6d00;
     }
@@ -192,8 +201,8 @@ const SubItemBox = styled(Box)<{ isTop: boolean }>`
   }
 `;
 
-const IconBox = styled(Stack)`
-  background: rgba(255, 255, 255, 0.4);
+const IconBox = styled(Stack)<{ isTop: boolean }>`
+  background: ${({ isTop }) => (isTop ? "rgba(255, 255, 255, 0.4)" : "#fff")};
   width: 26px;
   height: 26px;
   border-radius: 50%;
@@ -419,6 +428,7 @@ const Nav = ({ isTop }: { isTop: boolean }) => {
                                   alignItems="center"
                                   direction="row"
                                   className="icon-box"
+                                  isTop={isTop}
                                 >
                                   {subItem.icon}
                                 </IconBox>
@@ -430,7 +440,9 @@ const Nav = ({ isTop }: { isTop: boolean }) => {
                                 >
                                   {subItem.name}
                                 </SubName>
-                                <Right />
+                                <Box mt={4} className="icon-right">
+                                  <Right />
+                                </Box>
                               </Stack>
                               {subItem?.desc && (
                                 <Stack
@@ -517,6 +529,7 @@ const Nav = ({ isTop }: { isTop: boolean }) => {
                                 justifyContent="center"
                                 alignItems="center"
                                 direction="row"
+                                isTop={isTop}
                               >
                                 {subItem.icon}
                               </IconBox>
@@ -547,7 +560,9 @@ const Nav = ({ isTop }: { isTop: boolean }) => {
               ) : (
                 <>
                   <NavLink
-                    onClick={()=>{setIsOpenMenu(false)}}
+                    onClick={() => {
+                      setIsOpenMenu(false);
+                    }}
                     style={{ fontFamily: "ZenDots-Regular" }}
                     to={d.path}
                   >
